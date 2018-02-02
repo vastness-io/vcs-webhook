@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package github;
+
+import "user.proto";
+
+message Installation {
+    int32 id = 1;
+    User account = 2;
+    string access_tokens_url = 3;
+    string repositories_url = 4;
+    string html_url = 5;
+}

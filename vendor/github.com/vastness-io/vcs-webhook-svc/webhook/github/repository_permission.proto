@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+
+package github;
+
+message RepositoryPermission {
+    bool admin = 1;
+    bool push = 2;
+    bool pull = 3;
+}

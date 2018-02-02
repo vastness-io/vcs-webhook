@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package github;
+
+import "user.proto";
+import "commit_author.proto";
+import "repository.proto";
+import "installation.proto";
+
+message PushCommit {
+    string sha = 1;
+    string id = 2;
+    string tree_id = 3;
+    bool distinct = 4;
+    string message = 5;
+    string timestamp = 6;
+    string url = 7;
+    CommitAuthor author = 8;
+    CommitAuthor committer = 9;
+    repeated string added = 10;
+    repeated string removed = 11;
+    repeated string modified = 12;
+}
+
+message PushEvent {
+    string ref = 1;
+    string before = 2;
+    string after = 3;
+    bool created = 4;
+    bool deleted = 5;
+    bool forced = 6;
+    string base_ref = 7;
+    string compare = 8;
+    repeated PushCommit commits = 9;
+    PushCommit head_commit = 10;
+    Repository repository = 11;
+    CommitAuthor pusher = 12;
+    User sender = 13;
+    Installation installation = 14;
+    User organization = 15;
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package github;
+
+import "google/protobuf/empty.proto";
+import "push_event.proto";
+
+
+service GithubWebhook {
+    rpc OnPush(PushEvent) returns (google.protobuf.Empty) {
+    }
+}

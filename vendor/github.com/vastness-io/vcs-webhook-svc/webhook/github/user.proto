@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package github;
+
+import "repository_permission.proto";
+
+message User {
+    int32 id = 1;
+    string login = 2;
+    string avatar_url = 3;
+    string gravatar_id = 4;
+    string url = 5;
+    string html_url = 6;
+    string followers_url = 7;
+    string following_url = 8;
+    string gists_url = 9;
+    string starred_url = 10;
+    string subscriptions_url = 11;
+    string organizations_url = 12;
+    string repos_url = 13;
+    string events_url = 14;
+    string received_events_url = 15;
+    string hooks_url = 16;
+    string issues_url = 17;
+    string members_url = 18;
+    string public_members_url = 19;
+    string description = 20;
+    string type = 21;
+    bool site_admin = 22;
+    string name = 23;
+    string company = 24;
+    string blog = 25;
+    string location = 26;
+    string email = 27;
+    bool hireable = 28;
+    string bio = 29;
+    int32 public_repos = 30;
+    int32 public_gists = 31;
+    int32 followers = 32;
+    int32 following = 33;
+    string created_at = 34;
+    string updated_at = 35;
+    int32 org_id = 36;
+    RepositoryPermission permissions = 37;
+}
