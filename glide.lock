@@ -1,5 +1,5 @@
-hash: 4732c41e7a204c97dea6949550938d6f08b9c3e0b4157951d2904d9d9db7d823
-updated: 2018-02-06T13:52:00.554033731+01:00
+hash: 1b74aaa025fe62bade033a495fc2b66d51057c97583c918098eedbd8ed34a716
+updated: 2018-02-07T00:03:16.367205117+01:00
 imports:
 - name: github.com/afex/hystrix-go
   version: f118cd938f786d24f46cc307981d8f63b7951020
@@ -7,6 +7,10 @@ imports:
   - hystrix
   - hystrix/metric_collector
   - hystrix/rolling
+- name: github.com/golang/mock
+  version: 13f360950a79f5864a972c786a10a50e44b69541
+  subpackages:
+  - gomock
 - name: github.com/golang/protobuf
   version: bbd03ef6da3a115852eaf24c8a1c46aeb39aa175
   subpackages:
@@ -14,15 +18,12 @@ imports:
   - ptypes
   - ptypes/any
   - ptypes/duration
+  - ptypes/empty
   - ptypes/timestamp
 - name: github.com/gorilla/context
   version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
 - name: github.com/gorilla/mux
   version: 53c1911da2b537f792e7cafcb446b05ffe33b996
-- name: github.com/opentracing/opentracing-go
-  version: 1949ddbfd147afd4d964a9f00b24eb291e0e7c38
-  subpackages:
-  - log
 - name: github.com/sirupsen/logrus
   version: d682213848ed68c0a260ca37d6dd5ace8423f5ba
 - name: github.com/urfave/cli
@@ -33,9 +34,12 @@ imports:
   - pkg/core
   - pkg/queue
 - name: github.com/vastness-io/vcs-webhook-svc
-  version: 69e24ffe5ba1d3f6b827c0295c882da6f1510d7c
+  version: 8a471e5f1ff2139c8997290940bbc52b829e7920
+  subpackages:
+  - mock/webhook/github
+  - webhook/github
 - name: golang.org/x/crypto
-  version: 1875d0a70c90e57f11972aefd42276df65e895b9
+  version: d9133f5469342136e669e85192a26056b587f503
   subpackages:
   - ssh/terminal
 - name: golang.org/x/net

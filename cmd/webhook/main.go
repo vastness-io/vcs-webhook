@@ -7,6 +7,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 	"github.com/vastness-io/queues/pkg/queue"
+	"github.com/vastness-io/vcs-webhook-svc/webhook/github"
 	"github.com/vastness-io/vcs-webhook/pkg/route/webhook"
 	"github.com/vastness-io/vcs-webhook/pkg/util"
 	"google.golang.org/grpc"
@@ -108,7 +109,7 @@ func run() {
 
 	q := queue.NewFIFOQueue()
 
-	client := webhook.NewGithubWebhook(cc, q)
+	client := webhook.NewGithubWebhook(github.NewGithubWebhookClient(cc), q)
 	defer cc.Close()
 
 	go client.WorkOnQueue()
@@ -130,7 +131,7 @@ func run() {
 		}
 	}()
 
-	signalChan := make(chan os.Signal, 1)
+	signalChan := make(chan os.Signal, 2)
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
 
 	for {

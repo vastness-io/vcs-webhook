@@ -7,7 +7,6 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/vastness-io/queues/pkg/core"
 	webhook "github.com/vastness-io/vcs-webhook-svc/webhook/github"
-	"google.golang.org/grpc"
 	"io/ioutil"
 	"net/http"
 )
@@ -28,20 +27,20 @@ var (
 )
 
 type GithubWebhook struct {
-	forwardClient webhook.GithubWebhookClient
-	queue         core.BlockingQueue
+	client webhook.GithubWebhookClient
+	queue  core.BlockingQueue
 }
 
-func NewGithubWebhook(cc *grpc.ClientConn, queue core.BlockingQueue) *GithubWebhook {
+func NewGithubWebhook(client webhook.GithubWebhookClient, queue core.BlockingQueue) *GithubWebhook {
 	return &GithubWebhook{
-		forwardClient: webhook.NewGithubWebhookClient(cc),
-		queue:         queue,
+		client: client,
+		queue:  queue,
 	}
 }
 
 func (hook *GithubWebhook) OnPush(w http.ResponseWriter, r *http.Request) {
 
-	if r.Body == nil || !validateHeaders(r.Header, GitHubEventHeader, GithubDeliveryHeader, GithubHubSignatureHeader) {
+	if r.Body == nil || !ValidateHeaders(r.Header, GitHubEventHeader, GithubDeliveryHeader, GithubHubSignatureHeader) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -83,7 +82,7 @@ func (hook *GithubWebhook) work() bool {
 	}
 
 	runFunc := func() error {
-		_, err := hook.forwardClient.OnPush(context.Background(), pushEvent.(*webhook.PushEvent))
+		_, err := hook.client.OnPush(context.Background(), pushEvent.(*webhook.PushEvent))
 		return err
 	}
 
