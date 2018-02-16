@@ -7,10 +7,13 @@ import (
 )
 
 func TestFIFOQueue(t *testing.T) {
-	q := NewFIFOQueue()
-	count := 10000
-	var first, tail int
-	for i := 0; i < count; i++ {
+	var (
+		count       int64 = 10000
+		q                 = NewFIFOQueue(count, 250*time.Millisecond)
+		first, tail int64
+	)
+
+	for i := int64(0); i < count; i++ {
 		q.Enqueue(i)
 		tail++
 		if q.Size() <= 0 {
@@ -26,7 +29,7 @@ func TestFIFOQueue(t *testing.T) {
 			t.Error("Should be false")
 		}
 
-		if v.(int) != first {
+		if v.(int64) != first {
 			t.Error("Should be the same element")
 		}
 		tail--

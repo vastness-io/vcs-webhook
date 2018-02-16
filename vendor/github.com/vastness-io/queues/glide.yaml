@@ -1,0 +1,4 @@
+package: github.com/vastness-io/queues
+import:
+- package: github.com/juju/ratelimit
+  version: ^1.0.1

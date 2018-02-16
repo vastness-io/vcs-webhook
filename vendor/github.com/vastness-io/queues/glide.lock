@@ -1,0 +1,6 @@
+hash: 4e646493ae5bf5ac2f1d04109feba36ac3b7b18274888e354e336ddd690192a4
+updated: 2018-02-26T16:00:36.024662+01:00
+imports:
+- name: github.com/juju/ratelimit
+  version: 59fac5042749a5afb9af70e813da1dd5474f0167
+testImports: []

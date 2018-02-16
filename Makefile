@@ -7,7 +7,7 @@ export VERSION COMMIT LATEST_TAG
 
 test:
 	@echo "=> Running tests"
-	go test ./... -v
+	./hack/run-tests.sh
 
 build:
 	./hack/cross-platform-build.sh

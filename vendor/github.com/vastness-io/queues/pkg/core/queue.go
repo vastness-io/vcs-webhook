@@ -2,7 +2,7 @@ package core
 
 // Queue is a abstract data type.
 type Queue interface {
-	Size() int // Size of the current queue.
+	Size() int64 // Size of the current queue.
 
 	Enqueue(interface{}) // Add node to Tail of the queue.
 
@@ -11,7 +11,7 @@ type Queue interface {
 
 // Queue is a abstract data type which blocks on dequeue if the queue is empty.
 type BlockingQueue interface {
-	Size() int // Size of the current queue.
+	Size() int64 // Size of the current queue.
 
 	Enqueue(interface{}) // Add node to Tail of the queue.
 
