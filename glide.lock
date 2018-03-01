@@ -1,5 +1,5 @@
-hash: 4ca081394c430f7674128e0fdb36f84dbe04d7bf770cf3e3ffdb8edcc44d8a17
-updated: 2018-03-01T15:39:46.890095+01:00
+hash: e1d962f05938f8abe6a86ac4793644926141179b772014ffcc3a41819bd3e090
+updated: 2018-03-01T17:24:18.221611+01:00
 imports:
 - name: github.com/afex/hystrix-go
   version: 27fae8d30f1a3cbcab6618d2ee55a4cb43064376
@@ -31,7 +31,7 @@ imports:
 - name: github.com/gorilla/mux
   version: 53c1911da2b537f792e7cafcb446b05ffe33b996
 - name: github.com/grpc-ecosystem/go-grpc-middleware
-  version: f7cbcd2ed22c7f17a07b5d8d5523a41626fc60fb
+  version: eb23b08d08bbe930113a6512a7a829050341448c
   subpackages:
   - logging
   - logging/logrus
@@ -85,7 +85,7 @@ imports:
   - pkg/core
   - pkg/queue
 - name: github.com/vastness-io/toolkit
-  version: 152b2798a4d7ae1cfe421a81e670dcc04efb9634
+  version: a25d6ce09da43b9852062215b7cabbfeb35169bb
   subpackages:
   - pkg/grpc
   - pkg/http
