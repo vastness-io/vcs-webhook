@@ -8,6 +8,7 @@ import (
 	"github.com/urfave/cli"
 	"github.com/vastness-io/queues/pkg/queue"
 	toolkit "github.com/vastness-io/toolkit/pkg/grpc"
+	"github.com/vastness-io/vcs-webhook-svc/webhook/bitbucketserver"
 	"github.com/vastness-io/vcs-webhook-svc/webhook/github"
 	"github.com/vastness-io/vcs-webhook/pkg/route"
 	"github.com/vastness-io/vcs-webhook/pkg/service"
@@ -28,7 +29,7 @@ const (
 )
 
 var (
-	log       = logrus.WithField("component", "vcs-webhook")
+	log       = logrus.WithField("component", name)
 	commit    string
 	version   string
 	addr      string
@@ -107,13 +108,19 @@ func run() {
 	}
 
 	var (
-		githubwebhookClient = github.NewGithubWebhookClient(cc)
-		githubReqQ          = queue.NewFIFOQueue(capacity, fillRate)
-		githubService       = service.NewGithubWebhookService(githubwebhookClient, githubReqQ)
-		githubRoute         = &route.VCSRoute{
+		githubwebhookClient          = github.NewGithubWebhookClient(cc)
+		bitbucketServerwebhookClient = bitbucketserver.NewBitbucketServerPostWebhookClient(cc)
+		githubReqQ                   = queue.NewFIFOQueue(capacity, fillRate)
+		bitbucketServerReqQ          = queue.NewFIFOQueue(capacity, fillRate)
+		githubService                = service.NewGithubWebhookService(githubwebhookClient, githubReqQ)
+		bitbucketServerService       = service.NewBitbucketServerWebhookService(bitbucketServerwebhookClient, bitbucketServerReqQ)
+		githubRoute                  = &route.VCSRoute{
 			Service: githubService,
 		}
-		httpTransport = transport.NewHTTPTransport(githubRoute)
+		bitbucketServerRoute = &route.VCSRoute{
+			Service: bitbucketServerService,
+		}
+		httpTransport = transport.NewHTTPTransport(githubRoute, bitbucketServerRoute)
 		address       = net.JoinHostPort(addr, strconv.Itoa(port))
 		srv           = http.Server{
 			Addr:    address,
@@ -124,6 +131,8 @@ func run() {
 	defer cc.Close()
 
 	go githubService.Work()
+
+	go bitbucketServerService.Work()
 
 	go func() {
 		log.Infof("Listening on %s", address)
@@ -138,7 +147,8 @@ func run() {
 		case <-signalChan:
 			log.Info("Stopping workers on queue")
 			githubReqQ.ShutDown()
-			log.Info("Exiting vcs-webhook")
+			bitbucketServerReqQ.ShutDown()
+			log.Infof("Exiting %s", name)
 			ctx, _ := context.WithTimeout(context.Background(), time.Minute)
 			if err := srv.Shutdown(ctx); err != nil {
 				os.Exit(1)

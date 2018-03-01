@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package bitbucketserver;
+
+message Link {
+    string rel = 1;
+    string url = 2;
+}

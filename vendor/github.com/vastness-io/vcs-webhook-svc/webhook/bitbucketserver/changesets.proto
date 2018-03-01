@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package bitbucketserver;
+
+import "google/protobuf/struct.proto";
+import "value.proto";
+
+message ChangeSets {
+    google.protobuf.Struct filter = 1;
+    bool isLastPage = 2;
+    int32 limit =3;
+    int32 size = 4;
+    int32 start = 5;
+    repeated Value values = 6;
+}

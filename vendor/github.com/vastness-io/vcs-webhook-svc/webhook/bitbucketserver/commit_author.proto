@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package bitbucketserver;
+
+message CommitAuthor {
+    string emailAddress = 1;
+    string name = 2;
+}

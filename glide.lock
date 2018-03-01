@@ -1,5 +1,5 @@
-hash: 943c756585d46a2dee7a672b51c588b4881c22942ddf9987247beec33fb74fca
-updated: 2018-02-27T09:34:03.764767+01:00
+hash: 4ca081394c430f7674128e0fdb36f84dbe04d7bf770cf3e3ffdb8edcc44d8a17
+updated: 2018-03-01T15:39:46.890095+01:00
 imports:
 - name: github.com/afex/hystrix-go
   version: 27fae8d30f1a3cbcab6618d2ee55a4cb43064376
@@ -31,10 +31,11 @@ imports:
 - name: github.com/gorilla/mux
   version: 53c1911da2b537f792e7cafcb446b05ffe33b996
 - name: github.com/grpc-ecosystem/go-grpc-middleware
-  version: d0c54e68681ec7999ac17864470f3bee6521ba2b
+  version: f7cbcd2ed22c7f17a07b5d8d5523a41626fc60fb
   subpackages:
   - logging
   - logging/logrus
+  - logging/logrus/ctxlogrus
   - tags
   - tags/logrus
   - tracing/opentracing
@@ -61,13 +62,13 @@ imports:
   subpackages:
   - go
 - name: github.com/prometheus/common
-  version: 89604d197083d4781071d3c65855d24ecfb0a563
+  version: 6fb6fce6f8b75884b92e1889c150403fc0872c5e
   subpackages:
   - expfmt
   - internal/bitbucket.org/ww/goautoneg
   - model
 - name: github.com/prometheus/procfs
-  version: 282c8707aa210456a825798969cc27edda34992a
+  version: d274e363d5759d1c916232217be421f1cc89c5fe
   subpackages:
   - internal/util
   - nfs
@@ -89,9 +90,9 @@ imports:
   - pkg/grpc
   - pkg/http
 - name: github.com/vastness-io/vcs-webhook-svc
-  version: 8a471e5f1ff2139c8997290940bbc52b829e7920
+  version: 9e45726361bd4732d2b6a60c3ab91a43b8e0db84
 - name: golang.org/x/crypto
-  version: beaf6a35706e5032ae4c3fcf342c663c069f44d2
+  version: 91a49db82a88618983a78a06c1cbd4e00ab749ab
   subpackages:
   - ssh/terminal
 - name: golang.org/x/net

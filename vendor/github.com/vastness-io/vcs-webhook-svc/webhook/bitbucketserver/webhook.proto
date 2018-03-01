@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package bitbucketserver;
+
+import "google/protobuf/empty.proto";
+import "post_webhook.proto";
+
+service BitbucketServerPostWebhook {
+    rpc OnPush (PostWebhook) returns (google.protobuf.Empty);
+}
