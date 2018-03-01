@@ -1,6 +1,19 @@
 package service
 
-import "context"
+import (
+	"context"
+	"github.com/sirupsen/logrus"
+)
+
+const (
+	WebhookFallbackMessage = "Falling back, requeuing push event"
+)
+
+var (
+	log = logrus.WithFields(logrus.Fields{
+		"pkg": "service",
+	})
+)
 
 // Service defines how to handle a VCS webhook push event/request.
 type Service interface {

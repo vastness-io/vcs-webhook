@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package bitbucketserver;
+
+message Parent {
+    string displayId = 1;
+    string id = 2;
+}

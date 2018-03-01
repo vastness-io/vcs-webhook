@@ -6,7 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/negroni"
 	toolkit_http "github.com/vastness-io/toolkit/pkg/http"
-	webhook "github.com/vastness-io/vcs-webhook-svc/webhook/github"
+	"github.com/vastness-io/vcs-webhook-svc/webhook/github"
 	"github.com/vastness-io/vcs-webhook/pkg/service"
 	"io/ioutil"
 	"net/http"
@@ -27,7 +27,7 @@ func decodeGithubOnPushReq() toolkit_http.DecodeRequestFunc {
 			return nil, err
 		}
 
-		var pushEvent *webhook.PushEvent
+		var pushEvent *github.PushEvent
 
 		if err := json.Unmarshal(b, &pushEvent); err != nil {
 			return nil, err

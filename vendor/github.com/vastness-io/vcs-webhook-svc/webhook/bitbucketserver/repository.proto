@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package bitbucketserver;
+
+import "project.proto";
+
+message Repository {
+    bool forkable = 1;
+    int32 id = 2;
+    string name = 3;
+    Project project = 4;
+    bool public = 5;
+    string scmId = 6;
+    string slug = 7;
+    string state = 8;
+    string statusMessage = 9;
+}
+

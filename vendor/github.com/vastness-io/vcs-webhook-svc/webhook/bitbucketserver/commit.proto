@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package bitbucketserver;
+
+import "commit_author.proto";
+import "parent.proto";
+
+message ToCommit {
+    int32 authorTimestamp = 1;
+    string displayId = 2;
+    string id = 3;
+    string message = 4;
+    CommitAuthor author = 5;
+    repeated Parent parents = 6;
+}
+
+message FromCommit {
+    string displayID = 1;
+    string id = 2;
+}

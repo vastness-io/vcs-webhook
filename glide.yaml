@@ -3,6 +3,7 @@ import:
 - package: github.com/gorilla/mux
   version: ^1.6.1
 - package: github.com/vastness-io/vcs-webhook-svc
+  version: ^0.1.0
 - package: google.golang.org/grpc
   version: ^1.9.2
 - package: github.com/sirupsen/logrus

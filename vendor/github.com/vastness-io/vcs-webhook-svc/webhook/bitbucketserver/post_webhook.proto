@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package bitbucketserver;
+
+import "changesets.proto";
+import "ref_change.proto";
+import "repository.proto";
+
+message PostWebhook {
+  ChangeSets changesets = 1;
+  repeated RefChange refChanges = 2;
+  Repository repository = 3;
+}
+
+
+
+
+
+
+
+
+
+
+
+

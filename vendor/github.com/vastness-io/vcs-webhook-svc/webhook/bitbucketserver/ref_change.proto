@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package bitbucketserver;
+
+message RefChange {
+    string fromHash = 1;
+    string refId = 2;
+    string toHash = 3;
+    string type = 4;
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package bitbucketserver;
+
+message Project {
+    int32 id = 1;
+    bool isPersonal = 2;
+    string key = 3;
+    string name = 4;
+    bool public = 5;
+    string type = 6;
+}
