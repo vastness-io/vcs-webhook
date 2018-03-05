@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package vcs;
+
+message User {
+    int64 id = 1;
+    string login = 2;
+    string url = 5;
+    string type = 21;
+    string name = 23;
+    string email = 27;
+}

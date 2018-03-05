@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/afex/hystrix-go/hystrix"
 	"github.com/vastness-io/queues/pkg/core"
+	"github.com/vastness-io/vcs-webhook-svc/webhook"
 	"github.com/vastness-io/vcs-webhook-svc/webhook/github"
 )
 
@@ -12,12 +13,12 @@ const (
 )
 
 type githubWebhookService struct {
-	client github.GithubWebhookClient
+	client vcs.VcsEventClient
 	queue  core.BlockingQueue
 }
 
 // NewGithubWebhookService creates a Service which interacts with the RPC Server handling github push events.
-func NewGithubWebhookService(client github.GithubWebhookClient, queue core.BlockingQueue) Service {
+func NewGithubWebhookService(client vcs.VcsEventClient, queue core.BlockingQueue) Service {
 	return &githubWebhookService{
 		client: client,
 		queue:  queue,
@@ -26,7 +27,8 @@ func NewGithubWebhookService(client github.GithubWebhookClient, queue core.Block
 
 // OnPush enqueues the push event for later processing.
 func (s *githubWebhookService) OnPush(ctx context.Context, req interface{}) (interface{}, error) {
-	pushEvent := req.(*github.PushEvent)
+	githubPushEvent := req.(*github.PushEvent)
+	pushEvent := MapGithubPushEventToVcsPushEvent(githubPushEvent)
 	s.queue.Enqueue(pushEvent)
 	return nil, nil
 }
@@ -45,7 +47,7 @@ func (s *githubWebhookService) work() bool {
 	}
 
 	runFunc := func() error {
-		_, err := s.client.OnPush(context.Background(), pushEvent.(*github.PushEvent))
+		_, err := s.client.OnPush(context.Background(), pushEvent.(*vcs.VcsPushEvent))
 		return err
 	}
 

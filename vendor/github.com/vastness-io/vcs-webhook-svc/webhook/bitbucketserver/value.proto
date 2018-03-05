@@ -11,9 +11,9 @@ message Value {
     message Changes {
         google.protobuf.Struct filter = 1;
         bool isLastPage = 2;
-        int32 limit = 3;
-        int32 size = 4;
-        int32 start = 5;
+        int64 limit = 3;
+        int64 size = 4;
+        int64 start = 5;
         message Values {
             string contentId = 1;
             bool executable = 2;
@@ -27,7 +27,7 @@ message Value {
                 string toString = 5;
             }
             Path path = 5;
-            int32 percentUnchanged = 6;
+            int64 percentUnchanged = 6;
             bool srcExecutable = 7;
             string type = 8;
         }

@@ -6,10 +6,11 @@ import (
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/vastness-io/queues/pkg/core"
 	"github.com/vastness-io/queues/pkg/queue"
-	"github.com/vastness-io/vcs-webhook-svc/mock/webhook/bitbucketserver"
-	"github.com/vastness-io/vcs-webhook-svc/mock/webhook/github"
+	"github.com/vastness-io/vcs-webhook-svc/mock/webhook"
+	"github.com/vastness-io/vcs-webhook-svc/webhook"
 	"github.com/vastness-io/vcs-webhook-svc/webhook/bitbucketserver"
 	"github.com/vastness-io/vcs-webhook-svc/webhook/github"
+	"reflect"
 	"testing"
 	"time"
 )
@@ -40,58 +41,62 @@ func TestWorkOnQueueEmptyQueue(t *testing.T) {
 		{
 			ctrl:     githubSupport.ctrl,
 			q:        githubSupport.q,
-			service:  NewGithubWebhookService(mock_github.NewMockGithubWebhookClient(githubSupport.ctrl), githubSupport.q),
+			service:  NewGithubWebhookService(mock_webhook.NewMockVcsEventClient(githubSupport.ctrl), githubSupport.q),
 			notifyCh: make(chan struct{}),
 		},
 		{
 			ctrl:     bitbucketSupport.ctrl,
 			q:        bitbucketSupport.q,
-			service:  NewBitbucketServerWebhookService(mock_bitbucketserver.NewMockBitbucketServerPostWebhookClient(bitbucketSupport.ctrl), bitbucketSupport.q),
+			service:  NewBitbucketServerWebhookService(mock_webhook.NewMockVcsEventClient(bitbucketSupport.ctrl), bitbucketSupport.q),
 			notifyCh: make(chan struct{}),
 		},
 	}
 
 	for _, test := range tests {
-		ctrl := test.ctrl
 
-		go func(ch chan<- struct{}) {
-			test.service.Work()
-			ch <- struct{}{}
-		}(test.notifyCh)
+		func() {
+			ctrl := test.ctrl
+			defer ctrl.Finish()
 
-		test.q.ShutDown()
+			go func(ch chan<- struct{}) {
+				test.service.Work()
+				ch <- struct{}{}
+			}(test.notifyCh)
 
-		select {
-		case <-test.notifyCh:
-			if test.q.Size() != 0 {
+			test.q.ShutDown()
+
+			select {
+			case <-test.notifyCh:
+				if test.q.Size() != 0 {
+					t.Fail()
+				}
+			case <-time.After(5 * time.Second):
 				t.Fail()
 			}
-		case <-time.After(5 * time.Second):
-			t.Fail()
-		}
-		ctrl.Finish()
+
+		}()
 	}
 }
 
 func TestOnPush(t *testing.T) {
 	var githubSupport = struct {
-		ctrl     *gomock.Controller
-		q        core.BlockingQueue
-		expected interface{}
+		ctrl         *gomock.Controller
+		q            core.BlockingQueue
+		messageInput interface{}
 	}{
-		ctrl:     gomock.NewController(t),
-		q:        queue.NewFIFOQueue(0, time.Millisecond*250),
-		expected: new(github.PushEvent),
+		ctrl:         gomock.NewController(t),
+		q:            queue.NewFIFOQueue(0, time.Millisecond*250),
+		messageInput: &github.PushEvent{},
 	}
 
-	var bitbucketSupport = struct {
-		ctrl     *gomock.Controller
-		q        core.BlockingQueue
-		expected interface{}
+	var bitbucketServerSupport = struct {
+		ctrl         *gomock.Controller
+		q            core.BlockingQueue
+		messageInput interface{}
 	}{
-		ctrl:     gomock.NewController(t),
-		q:        queue.NewFIFOQueue(0, time.Millisecond*250),
-		expected: new(bitbucketserver.PostWebhook),
+		ctrl:         gomock.NewController(t),
+		q:            queue.NewFIFOQueue(0, time.Millisecond*250),
+		messageInput: &bitbucketserver.PostWebhook{},
 	}
 
 	tests := []struct {
@@ -104,76 +109,71 @@ func TestOnPush(t *testing.T) {
 		{
 			ctrl:     githubSupport.ctrl,
 			q:        githubSupport.q,
-			service:  NewGithubWebhookService(mock_github.NewMockGithubWebhookClient(githubSupport.ctrl), githubSupport.q),
+			service:  NewGithubWebhookService(mock_webhook.NewMockVcsEventClient(githubSupport.ctrl), githubSupport.q),
 			notifyCh: make(chan struct{}),
-			expected: githubSupport.expected,
+			expected: githubSupport.messageInput,
 		},
 		{
-			ctrl:     bitbucketSupport.ctrl,
-			q:        bitbucketSupport.q,
-			service:  NewBitbucketServerWebhookService(mock_bitbucketserver.NewMockBitbucketServerPostWebhookClient(bitbucketSupport.ctrl), bitbucketSupport.q),
+			ctrl:     bitbucketServerSupport.ctrl,
+			q:        bitbucketServerSupport.q,
+			service:  NewBitbucketServerWebhookService(mock_webhook.NewMockVcsEventClient(bitbucketServerSupport.ctrl), bitbucketServerSupport.q),
 			notifyCh: make(chan struct{}),
-			expected: bitbucketSupport.expected,
+			expected: bitbucketServerSupport.messageInput,
 		},
 	}
 
 	for _, test := range tests {
 
-		res, err := test.service.OnPush(context.Background(), test.expected)
+		func() {
+			ctrl := test.ctrl
+			defer ctrl.Finish()
+			res, err := test.service.OnPush(context.Background(), test.expected)
 
-		if err != nil && res != nil {
-			t.Fatal("Error is meant to be nil")
-		}
+			if err != nil && res != nil {
+				t.Fatal("Error is meant to be nil")
+			}
 
-		e, shutdown := test.q.Dequeue()
+			e, shutdown := test.q.Dequeue()
 
-		if shutdown {
-			t.Fatal("Should not be shutting down")
-		}
+			if shutdown {
+				t.Fatal("Should not be shutting down")
+			}
 
-		if e != test.expected {
-			t.Fatal("Should equal")
-		}
+			expectedType := reflect.TypeOf(&vcs.VcsPushEvent{})
 
-		test.ctrl.Finish()
-
+			if reflect.TypeOf(e) != expectedType {
+				t.Fatalf("Expected %v, got %v", e, expectedType)
+			}
+		}()
 	}
 }
 
 func TestWorkOnQueue(t *testing.T) {
 
 	var (
-		githubCtl           = gomock.NewController(t)
-		githubMockClient    = mock_github.NewMockGithubWebhookClient(githubCtl)
-		bitbucketCtl        = gomock.NewController(t)
-		bitbucketMockClient = mock_bitbucketserver.NewMockBitbucketServerPostWebhookClient(bitbucketCtl)
+		ctrl       = gomock.NewController(t)
+		mockClient = mock_webhook.NewMockVcsEventClient(ctrl)
 	)
 
-	githubMockClient.EXPECT().OnPush(gomock.Any(), gomock.Eq(&github.PushEvent{})).Return(&empty.Empty{}, nil)
-	bitbucketMockClient.EXPECT().OnPush(gomock.Any(), gomock.Eq(&bitbucketserver.PostWebhook{})).Return(&empty.Empty{}, nil)
-
-	var githubSupport = struct {
+	type testSupport struct {
 		ctrl       *gomock.Controller
-		mockClient *mock_github.MockGithubWebhookClient
+		mockClient *mock_webhook.MockVcsEventClient
 		q          core.BlockingQueue
 		expected   interface{}
-	}{
-		ctrl:       githubCtl,
-		mockClient: githubMockClient,
-		q:          queue.NewFIFOQueue(0, time.Millisecond*250),
-		expected:   &github.PushEvent{},
 	}
 
-	var bitbucketSupport = struct {
-		ctrl       *gomock.Controller
-		mockClient *mock_bitbucketserver.MockBitbucketServerPostWebhookClient
-		q          core.BlockingQueue
-		expected   interface{}
-	}{
-		ctrl:       bitbucketCtl,
-		mockClient: bitbucketMockClient,
+	var githubSupport = testSupport{
+		ctrl:       ctrl,
+		mockClient: mockClient,
 		q:          queue.NewFIFOQueue(0, time.Millisecond*250),
-		expected:   &bitbucketserver.PostWebhook{},
+		expected:   &vcs.VcsPushEvent{},
+	}
+
+	var bitbucketSupport = testSupport{
+		ctrl:       ctrl,
+		mockClient: mockClient,
+		q:          queue.NewFIFOQueue(0, time.Millisecond*250),
+		expected:   &vcs.VcsPushEvent{},
 	}
 
 	tests := []struct {
@@ -202,6 +202,7 @@ func TestWorkOnQueue(t *testing.T) {
 	for _, test := range tests {
 
 		func() {
+			mockClient.EXPECT().OnPush(gomock.Any(), gomock.Eq(&vcs.VcsPushEvent{})).Return(&empty.Empty{}, nil)
 			defer test.ctrl.Finish()
 			test.q.Enqueue(test.expected)
 

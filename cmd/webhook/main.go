@@ -8,8 +8,7 @@ import (
 	"github.com/urfave/cli"
 	"github.com/vastness-io/queues/pkg/queue"
 	toolkit "github.com/vastness-io/toolkit/pkg/grpc"
-	"github.com/vastness-io/vcs-webhook-svc/webhook/bitbucketserver"
-	"github.com/vastness-io/vcs-webhook-svc/webhook/github"
+	"github.com/vastness-io/vcs-webhook-svc/webhook"
 	"github.com/vastness-io/vcs-webhook/pkg/route"
 	"github.com/vastness-io/vcs-webhook/pkg/service"
 	"github.com/vastness-io/vcs-webhook/pkg/transport"
@@ -96,7 +95,7 @@ func run() {
 		logrus.SetLevel(logrus.DebugLevel)
 	}
 
-	log.Info("Starting vcs-webhook")
+	log.Infof("Starting %s", name)
 
 	var (
 		tracer  = opentracing.GlobalTracer()
@@ -108,13 +107,12 @@ func run() {
 	}
 
 	var (
-		githubwebhookClient          = github.NewGithubWebhookClient(cc)
-		bitbucketServerwebhookClient = bitbucketserver.NewBitbucketServerPostWebhookClient(cc)
-		githubReqQ                   = queue.NewFIFOQueue(capacity, fillRate)
-		bitbucketServerReqQ          = queue.NewFIFOQueue(capacity, fillRate)
-		githubService                = service.NewGithubWebhookService(githubwebhookClient, githubReqQ)
-		bitbucketServerService       = service.NewBitbucketServerWebhookService(bitbucketServerwebhookClient, bitbucketServerReqQ)
-		githubRoute                  = &route.VCSRoute{
+		vcsEventClient         = vcs.NewVcsEventClient(cc)
+		githubReqQ             = queue.NewFIFOQueue(capacity, fillRate)
+		bitbucketServerReqQ    = queue.NewFIFOQueue(capacity, fillRate)
+		githubService          = service.NewGithubWebhookService(vcsEventClient, githubReqQ)
+		bitbucketServerService = service.NewBitbucketServerWebhookService(vcsEventClient, bitbucketServerReqQ)
+		githubRoute            = &route.VCSRoute{
 			Service: githubService,
 		}
 		bitbucketServerRoute = &route.VCSRoute{

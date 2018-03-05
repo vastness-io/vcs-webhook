@@ -6,7 +6,7 @@ import "project.proto";
 
 message Repository {
     bool forkable = 1;
-    int32 id = 2;
+    int64 id = 2;
     string name = 3;
     Project project = 4;
     bool public = 5;

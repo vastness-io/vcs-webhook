@@ -2,8 +2,10 @@ package service
 
 import (
 	"context"
+
 	"github.com/afex/hystrix-go/hystrix"
 	"github.com/vastness-io/queues/pkg/core"
+	"github.com/vastness-io/vcs-webhook-svc/webhook"
 	"github.com/vastness-io/vcs-webhook-svc/webhook/bitbucketserver"
 )
 
@@ -12,12 +14,12 @@ const (
 )
 
 type bitbucketServerWebhookService struct {
-	client bitbucketserver.BitbucketServerPostWebhookClient
+	client vcs.VcsEventClient
 	queue  core.BlockingQueue
 }
 
 // NewBitbucketWebhookService creates a Service which interacts with the RPC Server handling bitbucket server push events.
-func NewBitbucketServerWebhookService(client bitbucketserver.BitbucketServerPostWebhookClient, queue core.BlockingQueue) Service {
+func NewBitbucketServerWebhookService(client vcs.VcsEventClient, queue core.BlockingQueue) Service {
 	return &bitbucketServerWebhookService{
 		client: client,
 		queue:  queue,
@@ -27,7 +29,8 @@ func NewBitbucketServerWebhookService(client bitbucketserver.BitbucketServerPost
 // OnPush enqueues the push event for later processing.
 func (s *bitbucketServerWebhookService) OnPush(ctx context.Context, req interface{}) (interface{}, error) {
 	postWebhook := req.(*bitbucketserver.PostWebhook)
-	s.queue.Enqueue(postWebhook)
+	pushEvent := MapPostWebhookToVcsPushEvent(postWebhook)
+	s.queue.Enqueue(pushEvent)
 	return nil, nil
 }
 
@@ -38,20 +41,20 @@ func (s *bitbucketServerWebhookService) Work() {
 }
 
 func (s *bitbucketServerWebhookService) work() bool {
-	postWebhook, shutdown := s.queue.Dequeue()
+	vcsPushEvent, shutdown := s.queue.Dequeue()
 
 	if shutdown {
 		return false
 	}
 
 	runFunc := func() error {
-		_, err := s.client.OnPush(context.Background(), postWebhook.(*bitbucketserver.PostWebhook))
+		_, err := s.client.OnPush(context.Background(), vcsPushEvent.(*vcs.VcsPushEvent))
 		return err
 	}
 
 	hystrix.Do(BitbucketServerWebhookFunctionName, runFunc, func(e error) error {
 		log.Debug(WebhookFallbackMessage)
-		s.queue.Enqueue(postWebhook)
+		s.queue.Enqueue(vcsPushEvent)
 		return nil
 	})
 

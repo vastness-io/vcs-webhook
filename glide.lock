@@ -1,5 +1,5 @@
-hash: e1d962f05938f8abe6a86ac4793644926141179b772014ffcc3a41819bd3e090
-updated: 2018-03-01T17:24:18.221611+01:00
+hash: aa4b83eff50e56777fdda2da48cdb20d32e608d0a15968c03596eadb5236d9d6
+updated: 2018-03-05T14:11:06.645763+01:00
 imports:
 - name: github.com/afex/hystrix-go
   version: 27fae8d30f1a3cbcab6618d2ee55a4cb43064376
@@ -90,13 +90,13 @@ imports:
   - pkg/grpc
   - pkg/http
 - name: github.com/vastness-io/vcs-webhook-svc
-  version: 9e45726361bd4732d2b6a60c3ab91a43b8e0db84
+  version: 237d195d10994e08d5a663031b2c8215fdc02de3
 - name: golang.org/x/crypto
   version: 91a49db82a88618983a78a06c1cbd4e00ab749ab
   subpackages:
   - ssh/terminal
 - name: golang.org/x/net
-  version: cbe0f9307d0156177f9dd5dc85da1a31abc5f2fb
+  version: 22ae77b79946ea320088417e4d50825671d82d57
   subpackages:
   - context
   - http2
@@ -106,19 +106,19 @@ imports:
   - lex/httplex
   - trace
 - name: golang.org/x/sys
-  version: f6cff0780e542efa0c8e864dc8fa522808f6a598
+  version: dd2ff4accc098aceecb86b36eaa7829b2a17b1c9
   subpackages:
   - unix
   - windows
 - name: golang.org/x/text
-  version: 27420a1a391f5504f73155051cd274311bf70883
+  version: b7ef84aaf62aa3e70962625c80a571ae7c17cb40
   subpackages:
   - secure/bidirule
   - transform
   - unicode/bidi
   - unicode/norm
 - name: google.golang.org/genproto
-  version: 2d9486acae19cf9bd0c093d7dc236a323726a9e4
+  version: 2c5e7ac708aaa719366570dd82bda44541ca2a63
   subpackages:
   - googleapis/rpc/status
 - name: google.golang.org/grpc
