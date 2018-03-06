@@ -148,7 +148,11 @@ func MapGithubPushEventToVcsPushEvent(from *github.PushEvent) *vcs.VcsPushEvent 
 			out.Organization = &org
 		}
 
+		out.Repository = &outRepository
+
 	}
+
+
 
 	out.Created = from.Created
 	out.Deleted = from.Deleted

@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-type testHelper = struct {
+type convertTestHelper = struct {
 	payload        []byte
 	pushEvent      *github.PushEvent
 	postWebhook    *bitbucketserver.PostWebhook
@@ -32,11 +32,11 @@ type testHelper = struct {
 
 func TestPostWebhookConversion(t *testing.T) {
 
-	tests := make([]testHelper, len(postWebhookExamplePayloads))
+	tests := make([]convertTestHelper, len(postWebhookExamplePayloads))
 
 	for i, _ := range postWebhookExamplePayloads {
 
-		tests[i] = testHelper{
+		tests[i] = convertTestHelper{
 			payload:     []byte(postWebhookExamplePayloads[i]),
 			postWebhook: new(bitbucketserver.PostWebhook),
 			ref:         "refs/heads/master",
@@ -145,11 +145,11 @@ func TestPostWebhookConversion(t *testing.T) {
 
 func TestGithubPushEventConversion(t *testing.T) {
 
-	tests := make([]testHelper, len(githubPushPayloads))
+	tests := make([]convertTestHelper, len(githubPushPayloads))
 
 	for i, _ := range githubPushPayloads {
 
-		tests[i] = testHelper{
+		tests[i] = convertTestHelper{
 			payload:   []byte(githubPushPayloads[i]),
 			pushEvent: new(github.PushEvent),
 			ref:       "refs/heads/changes",

@@ -15,19 +15,36 @@ import (
 	"time"
 )
 
+type serviceTestHelper = struct {
+	ctrl *gomock.Controller
+	queue    core.BlockingQueue
+	service Service
+	expected interface{}
+	notifyCh chan struct{}
+}
+
+func newTestHelper(t *testing.T, service Service, expected interface{}) serviceTestHelper {
+	return serviceTestHelper{
+		ctrl: gomock.NewController(t),
+		queue: queue.NewFIFOQueue(0, time.Millisecond*250),
+		service: service,
+		expected: expected,
+	}
+}
+
+
 func TestWorkOnQueueEmptyQueue(t *testing.T) {
-	var githubSupport = struct {
+	type testHelper struct {
 		ctrl *gomock.Controller
 		q    core.BlockingQueue
-	}{
+	}
+
+	var githubSupport = testHelper{
 		ctrl: gomock.NewController(t),
 		q:    queue.NewFIFOQueue(0, time.Millisecond*250),
 	}
 
-	var bitbucketSupport = struct {
-		ctrl *gomock.Controller
-		q    core.BlockingQueue
-	}{
+	var bitbucketServerSupport = testHelper{
 		ctrl: gomock.NewController(t),
 		q:    queue.NewFIFOQueue(0, time.Millisecond*250),
 	}
@@ -45,9 +62,9 @@ func TestWorkOnQueueEmptyQueue(t *testing.T) {
 			notifyCh: make(chan struct{}),
 		},
 		{
-			ctrl:     bitbucketSupport.ctrl,
-			q:        bitbucketSupport.q,
-			service:  NewBitbucketServerWebhookService(mock_webhook.NewMockVcsEventClient(bitbucketSupport.ctrl), bitbucketSupport.q),
+			ctrl:     bitbucketServerSupport.ctrl,
+			q:        bitbucketServerSupport.q,
+			service:  NewBitbucketServerWebhookService(mock_webhook.NewMockVcsEventClient(bitbucketServerSupport.ctrl), bitbucketServerSupport.q),
 			notifyCh: make(chan struct{}),
 		},
 	}
@@ -59,11 +76,11 @@ func TestWorkOnQueueEmptyQueue(t *testing.T) {
 			defer ctrl.Finish()
 
 			go func(ch chan<- struct{}) {
-				test.service.Work()
+				test.service.Work() //Will block until shutdown is called.
 				ch <- struct{}{}
 			}(test.notifyCh)
 
-			test.q.ShutDown()
+			test.q.ShutDown() //Unblocks worker
 
 			select {
 			case <-test.notifyCh:
@@ -79,21 +96,20 @@ func TestWorkOnQueueEmptyQueue(t *testing.T) {
 }
 
 func TestOnPush(t *testing.T) {
-	var githubSupport = struct {
+
+	type testHelper struct {
 		ctrl         *gomock.Controller
 		q            core.BlockingQueue
 		messageInput interface{}
-	}{
+	}
+
+	var githubSupport = testHelper{
 		ctrl:         gomock.NewController(t),
 		q:            queue.NewFIFOQueue(0, time.Millisecond*250),
 		messageInput: &github.PushEvent{},
 	}
 
-	var bitbucketServerSupport = struct {
-		ctrl         *gomock.Controller
-		q            core.BlockingQueue
-		messageInput interface{}
-	}{
+	var bitbucketServerSupport = testHelper{
 		ctrl:         gomock.NewController(t),
 		q:            queue.NewFIFOQueue(0, time.Millisecond*250),
 		messageInput: &bitbucketserver.PostWebhook{},
@@ -149,31 +165,27 @@ func TestOnPush(t *testing.T) {
 }
 
 func TestWorkOnQueue(t *testing.T) {
+	type testHelper struct {
+		ctrl       *gomock.Controller
+		mockClient *mock_webhook.MockVcsEventClient
+		q          core.BlockingQueue
+	}
 
 	var (
 		ctrl       = gomock.NewController(t)
 		mockClient = mock_webhook.NewMockVcsEventClient(ctrl)
 	)
 
-	type testSupport struct {
-		ctrl       *gomock.Controller
-		mockClient *mock_webhook.MockVcsEventClient
-		q          core.BlockingQueue
-		expected   interface{}
-	}
-
-	var githubSupport = testSupport{
+	var githubSupport = testHelper{
 		ctrl:       ctrl,
 		mockClient: mockClient,
 		q:          queue.NewFIFOQueue(0, time.Millisecond*250),
-		expected:   &vcs.VcsPushEvent{},
 	}
 
-	var bitbucketSupport = testSupport{
+	var bitbucketServerSupport = testHelper{
 		ctrl:       ctrl,
 		mockClient: mockClient,
 		q:          queue.NewFIFOQueue(0, time.Millisecond*250),
-		expected:   &vcs.VcsPushEvent{},
 	}
 
 	tests := []struct {
@@ -188,14 +200,14 @@ func TestWorkOnQueue(t *testing.T) {
 			q:        githubSupport.q,
 			service:  NewGithubWebhookService(githubSupport.mockClient, githubSupport.q),
 			notifyCh: make(chan struct{}),
-			expected: githubSupport.expected,
+			expected: &vcs.VcsPushEvent{},
 		},
 		{
-			ctrl:     bitbucketSupport.ctrl,
-			q:        bitbucketSupport.q,
-			service:  NewBitbucketServerWebhookService(bitbucketSupport.mockClient, bitbucketSupport.q),
+			ctrl:     bitbucketServerSupport.ctrl,
+			q:        bitbucketServerSupport.q,
+			service:  NewBitbucketServerWebhookService(bitbucketServerSupport.mockClient, bitbucketServerSupport.q),
 			notifyCh: make(chan struct{}),
-			expected: bitbucketSupport.expected,
+			expected: &vcs.VcsPushEvent{},
 		},
 	}
 

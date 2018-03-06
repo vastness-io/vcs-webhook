@@ -1,5 +1,5 @@
-hash: aa4b83eff50e56777fdda2da48cdb20d32e608d0a15968c03596eadb5236d9d6
-updated: 2018-03-05T14:11:06.645763+01:00
+hash: 8adddc8aaeb88a342e5b402e8ca4f7360f55f398851a16856493cb2e8c5e40d5
+updated: 2018-03-13T14:04:27.432423+01:00
 imports:
 - name: github.com/afex/hystrix-go
   version: 27fae8d30f1a3cbcab6618d2ee55a4cb43064376
@@ -62,19 +62,19 @@ imports:
   subpackages:
   - go
 - name: github.com/prometheus/common
-  version: 6fb6fce6f8b75884b92e1889c150403fc0872c5e
+  version: e4aa40a9169a88835b849a6efb71e05dc04b88f0
   subpackages:
   - expfmt
   - internal/bitbucket.org/ww/goautoneg
   - model
 - name: github.com/prometheus/procfs
-  version: d274e363d5759d1c916232217be421f1cc89c5fe
+  version: 54d17b57dd7d4a3aa092476596b3f8a933bde349
   subpackages:
   - internal/util
   - nfs
   - xfs
 - name: github.com/sirupsen/logrus
-  version: d682213848ed68c0a260ca37d6dd5ace8423f5ba
+  version: c155da19408a8799da419ed3eeb0cb5db0ad5dbc
 - name: github.com/urfave/cli
   version: cfb38830724cc34fedffe9a2a29fb54fa9169cd1
 - name: github.com/urfave/negroni
@@ -92,11 +92,11 @@ imports:
 - name: github.com/vastness-io/vcs-webhook-svc
   version: 237d195d10994e08d5a663031b2c8215fdc02de3
 - name: golang.org/x/crypto
-  version: 91a49db82a88618983a78a06c1cbd4e00ab749ab
+  version: 182114d582623c1caa54f73de9c7224e23a48487
   subpackages:
   - ssh/terminal
 - name: golang.org/x/net
-  version: 22ae77b79946ea320088417e4d50825671d82d57
+  version: 803fdb99c0f72e493c28ef2099d250a9c989d8ff
   subpackages:
   - context
   - http2
@@ -106,7 +106,7 @@ imports:
   - lex/httplex
   - trace
 - name: golang.org/x/sys
-  version: dd2ff4accc098aceecb86b36eaa7829b2a17b1c9
+  version: 8c0ece68c28377f4c326d85b94f8df0dace46f80
   subpackages:
   - unix
   - windows
@@ -118,7 +118,7 @@ imports:
   - unicode/bidi
   - unicode/norm
 - name: google.golang.org/genproto
-  version: 2c5e7ac708aaa719366570dd82bda44541ca2a63
+  version: df60624c1e9b9d2973e889c7a1cff73155da81c4
   subpackages:
   - googleapis/rpc/status
 - name: google.golang.org/grpc
