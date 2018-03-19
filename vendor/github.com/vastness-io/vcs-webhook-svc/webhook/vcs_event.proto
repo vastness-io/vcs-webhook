@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package vcs;
+
+import "google/protobuf/empty.proto";
+import "push_event.proto";
+
+
+service VcsEvent {
+    rpc OnPush(VcsPushEvent) returns (google.protobuf.Empty);
+}

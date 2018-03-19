@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package vcs;
+
+import "commit_author.proto";
+import "user.proto";
+import "repository.proto";
+
+message PushCommit {
+    string sha = 1;
+    string id = 2;
+    string tree_id = 3;
+    bool distinct = 4;
+    string message = 5;
+    string timestamp = 6;
+    string url = 7;
+    CommitAuthor author = 8;
+    CommitAuthor committer = 9;
+    repeated string added = 10;
+    repeated string removed = 11;
+    repeated string modified = 12;
+}
+
+message VcsPushEvent {
+    string ref = 1;
+    bool created = 4;
+    bool deleted = 5;
+    bool forced = 6;
+    repeated PushCommit commits = 9;
+    PushCommit head_commit = 10;
+    Repository repository = 11;
+    CommitAuthor pusher = 12;
+    User sender = 13;
+    User organization = 15;
+    VcsType vcs_type = 16;
+}
+
+enum VcsType {
+    UNKNOWN = 0;
+    BITBUCKET_SERVER = 1;
+    GITHUB = 2;
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package vcs;
+
+import "user.proto";
+
+message Repository {
+    int64 id = 1;
+    User owner = 2;
+    string name = 3;
+    string full_name = 4;
+    string description = 5;
+    bool private = 6;
+    bool fork = 7;
+    string url = 8;
+    User organization = 69;
+}
