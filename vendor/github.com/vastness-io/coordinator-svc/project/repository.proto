@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+import "branch.proto";
+
+package project;
+
+message Repository {
+    int64 id = 1;
+    string name = 2;
+	repeated Branch branches = 3;
+}

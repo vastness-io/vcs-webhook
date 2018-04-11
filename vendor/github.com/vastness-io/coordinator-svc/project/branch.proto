@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "language.proto";
+
+import "commit.proto";
+
+package project;
+
+message BranchMeta {
+    repeated Language languages = 1;
+}
+
+message Branch {
+    string name = 1;
+    BranchMeta meta = 2;
+    repeated Commit commits = 3;
+}

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+import "repository.proto";
+
+package project;
+
+service Projects {
+    rpc GetProjects(google.protobuf.Empty) returns (GetProjectsResponse);
+    rpc GetProject(GetProjectMessage) returns (Project);
+}
+
+message GetProjectMessage {
+    string name = 1;
+    string type = 2;
+}
+
+message Project {
+    string name = 1;
+    string type = 2;
+	repeated Repository repositories = 3;
+}
+
+message GetProjectsResponse {
+    repeated Project projects = 1;
+}
+
