@@ -131,6 +131,8 @@ func MapGithubPushEventToVcsPushEvent(from *github.PushEvent) *vcs.VcsPushEvent 
 				Email: fromOwner.GetEmail(),
 			}
 			outRepository.Owner = &owner
+			outRepository.Organization = &owner
+			out.Organization = &owner
 		}
 
 		fromOrg := fromRepository.GetOrganization()
@@ -144,7 +146,6 @@ func MapGithubPushEventToVcsPushEvent(from *github.PushEvent) *vcs.VcsPushEvent 
 				Name:  fromOrg.GetName(),
 				Email: fromOrg.GetEmail(),
 			}
-			outRepository.Organization = &org
 			out.Organization = &org
 		}
 

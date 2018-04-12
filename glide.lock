@@ -1,5 +1,5 @@
-hash: 8adddc8aaeb88a342e5b402e8ca4f7360f55f398851a16856493cb2e8c5e40d5
-updated: 2018-03-13T14:04:27.432423+01:00
+hash: d2f7b750be66969e5396707b6c333424ed4bb6405f530f5a25e5615ae4187700
+updated: 2018-03-25T16:37:40.759631+02:00
 imports:
 - name: github.com/afex/hystrix-go
   version: 27fae8d30f1a3cbcab6618d2ee55a4cb43064376
@@ -8,7 +8,7 @@ imports:
   - hystrix/metric_collector
   - hystrix/rolling
 - name: github.com/beorn7/perks
-  version: 4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9
+  version: 3a771d992973f24aa725d07868b467d1ddfceafb
   subpackages:
   - quantile
 - name: github.com/golang/mock
@@ -31,7 +31,7 @@ imports:
 - name: github.com/gorilla/mux
   version: 53c1911da2b537f792e7cafcb446b05ffe33b996
 - name: github.com/grpc-ecosystem/go-grpc-middleware
-  version: eb23b08d08bbe930113a6512a7a829050341448c
+  version: aed189ae50cf2ee326c1de8c083f3187e574e0d8
   subpackages:
   - logging
   - logging/logrus
@@ -54,7 +54,7 @@ imports:
   - ext
   - log
 - name: github.com/prometheus/client_golang
-  version: c3324c1198cf3374996e9d3098edd46a6b55afc9
+  version: d49167c4b9f3c4451707560c5c71471ff5291aaa
   subpackages:
   - prometheus
 - name: github.com/prometheus/client_model
@@ -68,7 +68,7 @@ imports:
   - internal/bitbucket.org/ww/goautoneg
   - model
 - name: github.com/prometheus/procfs
-  version: 54d17b57dd7d4a3aa092476596b3f8a933bde349
+  version: 780932d4fbbe0e69b84c34c20f5c8d0981e109ea
   subpackages:
   - internal/util
   - nfs
@@ -79,6 +79,8 @@ imports:
   version: cfb38830724cc34fedffe9a2a29fb54fa9169cd1
 - name: github.com/urfave/negroni
   version: 5dbbc83f748fc3ad38585842b0aedab546d0ea1e
+- name: github.com/vastness-io/coordinator-svc
+  version: 6672be77e84e3047c606115e9e5c399682fbefef
 - name: github.com/vastness-io/queues
   version: 8642ab3e01eb49108b427e3d9e3a8b5ce2562cb5
   subpackages:
@@ -91,12 +93,17 @@ imports:
   - pkg/http
 - name: github.com/vastness-io/vcs-webhook-svc
   version: 237d195d10994e08d5a663031b2c8215fdc02de3
+  subpackages:
+  - mock/webhook
+  - webhook
+  - webhook/bitbucketserver
+  - webhook/github
 - name: golang.org/x/crypto
-  version: 182114d582623c1caa54f73de9c7224e23a48487
+  version: 88942b9c40a4c9d203b82b3731787b672d6e809b
   subpackages:
   - ssh/terminal
 - name: golang.org/x/net
-  version: 803fdb99c0f72e493c28ef2099d250a9c989d8ff
+  version: 6078986fec03a1dcc236c34816c71b0e05018fda
   subpackages:
   - context
   - http2
@@ -106,19 +113,19 @@ imports:
   - lex/httplex
   - trace
 - name: golang.org/x/sys
-  version: 8c0ece68c28377f4c326d85b94f8df0dace46f80
+  version: 91ee8cde435411ca3f1cd365e8f20131aed4d0a1
   subpackages:
   - unix
   - windows
 - name: golang.org/x/text
-  version: b7ef84aaf62aa3e70962625c80a571ae7c17cb40
+  version: ab48842968a66deafa354805a8b031924668e059
   subpackages:
   - secure/bidirule
   - transform
   - unicode/bidi
   - unicode/norm
 - name: google.golang.org/genproto
-  version: df60624c1e9b9d2973e889c7a1cff73155da81c4
+  version: ab0870e398d5dd054b868c0db1481ab029b9a9f2
   subpackages:
   - googleapis/rpc/status
 - name: google.golang.org/grpc

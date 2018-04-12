@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package project;
+
+message Commit {
+    string sha = 1;
+    string message = 2;
+    string timestamp = 3;
+    string author_name = 4;
+    string author_email = 5;
+    repeated string added = 6;
+    repeated string removed = 7;
+    repeated string modified = 8;
+}
