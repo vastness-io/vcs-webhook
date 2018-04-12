@@ -30,7 +30,7 @@ func MapGithubPushEventToVcsPushEvent(from *github.PushEvent) *vcs.VcsPushEvent 
 
 		if commit != nil {
 			outCommit = &vcs.PushCommit{
-				Sha:      commit.GetSha(),
+				Sha:      commit.GetId(),
 				Id:       commit.GetId(),
 				TreeId:   commit.GetTreeId(),
 				Distinct: commit.GetDistinct(),

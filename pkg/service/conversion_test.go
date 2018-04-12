@@ -392,7 +392,6 @@ var (
   "compare": "https://github.com/baxterthehacker/public-repo/compare/9049f1265b7d...0d1a26e67d8f",
   "commits": [
     {
-      "sha": "0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c",
       "id": "0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c",
       "tree_id": "f9d2a07e9488b91af2641b26b9407fe22a451433",
       "distinct": true,
@@ -519,11 +518,7 @@ var (
     "watchers": 0,
     "default_branch": "master",
     "stargazers": 0,
-    "master_branch": "master",
-	"organization": {
-      "name": "baxterthehacker",
-      "email": "baxterthehacker@users.noreply.github.com"
-}
+    "master_branch": "master"
   },
   "pusher": {
     "name": "baxterthehacker",
