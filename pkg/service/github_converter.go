@@ -7,7 +7,7 @@ import (
 	"github.com/vastness-io/vcs-webhook-svc/webhook/github"
 )
 
-// MapPostWebhookToVcsPushEvent converts a Github push event message to a PushEvent
+// MapGithubPushEventToVcsPushEvent converts a Github push event message to a PushEvent
 func MapGithubPushEventToVcsPushEvent(from *github.PushEvent) *vcs.VcsPushEvent {
 	if from == nil {
 		return nil

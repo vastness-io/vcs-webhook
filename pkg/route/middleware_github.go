@@ -17,7 +17,7 @@ func ValidGithubWebhookRequest() func(http.ResponseWriter, *http.Request, http.H
 	return ValidGithubWebhookRequestSecure("")
 }
 
-// ValidGithubWebhookRequest is Middleware which verifies the request is from Github and with the correct secret.
+// ValidGithubWebhookRequestSecure is Middleware which verifies the request is from Github and with the correct secret.
 func ValidGithubWebhookRequestSecure(secret string) func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
 	return func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 
