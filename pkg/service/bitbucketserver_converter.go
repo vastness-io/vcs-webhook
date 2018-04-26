@@ -2,9 +2,10 @@ package service
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/vastness-io/vcs-webhook-svc/webhook"
 	"github.com/vastness-io/vcs-webhook-svc/webhook/bitbucketserver"
-	"time"
 )
 
 const (

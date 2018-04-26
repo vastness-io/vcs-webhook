@@ -1,9 +1,10 @@
 package transport
 
 import (
+	"net/http"
+
 	toolkit_http "github.com/vastness-io/toolkit/pkg/http"
 	"github.com/vastness-io/vcs-webhook/pkg/route"
-	"net/http"
 )
 
 const (

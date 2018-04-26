@@ -1,12 +1,13 @@
 package service
 
 import (
+	"time"
+
 	"github.com/vastness-io/vcs-webhook-svc/webhook"
 	"github.com/vastness-io/vcs-webhook-svc/webhook/github"
-	"time"
 )
 
-// MapPostWebhookToVcsPushEvent converts a Github push event message to a PushEvent
+// MapGithubPushEventToVcsPushEvent converts a Github push event message to a PushEvent
 func MapGithubPushEventToVcsPushEvent(from *github.PushEvent) *vcs.VcsPushEvent {
 	if from == nil {
 		return nil
@@ -152,8 +153,6 @@ func MapGithubPushEventToVcsPushEvent(from *github.PushEvent) *vcs.VcsPushEvent 
 		out.Repository = &outRepository
 
 	}
-
-
 
 	out.Created = from.Created
 	out.Deleted = from.Deleted

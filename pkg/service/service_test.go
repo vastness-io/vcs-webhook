@@ -2,36 +2,37 @@ package service
 
 import (
 	"context"
+	"reflect"
+	"testing"
+	"time"
+
 	"github.com/golang/mock/gomock"
 	"github.com/golang/protobuf/ptypes/empty"
+
 	"github.com/vastness-io/queues/pkg/core"
 	"github.com/vastness-io/queues/pkg/queue"
 	"github.com/vastness-io/vcs-webhook-svc/mock/webhook"
 	"github.com/vastness-io/vcs-webhook-svc/webhook"
 	"github.com/vastness-io/vcs-webhook-svc/webhook/bitbucketserver"
 	"github.com/vastness-io/vcs-webhook-svc/webhook/github"
-	"reflect"
-	"testing"
-	"time"
 )
 
 type serviceTestHelper = struct {
-	ctrl *gomock.Controller
+	ctrl     *gomock.Controller
 	queue    core.BlockingQueue
-	service Service
+	service  Service
 	expected interface{}
 	notifyCh chan struct{}
 }
 
 func newTestHelper(t *testing.T, service Service, expected interface{}) serviceTestHelper {
 	return serviceTestHelper{
-		ctrl: gomock.NewController(t),
-		queue: queue.NewFIFOQueue(0, time.Millisecond*250),
-		service: service,
+		ctrl:     gomock.NewController(t),
+		queue:    queue.NewFIFOQueue(0, time.Millisecond*250),
+		service:  service,
 		expected: expected,
 	}
 }
-
 
 func TestWorkOnQueueEmptyQueue(t *testing.T) {
 	type testHelper struct {
