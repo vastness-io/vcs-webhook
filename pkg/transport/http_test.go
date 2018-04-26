@@ -3,16 +3,17 @@ package transport
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/vastness-io/queues/pkg/queue"
-	"github.com/vastness-io/vcs-webhook-svc/webhook/bitbucketserver"
-	"github.com/vastness-io/vcs-webhook-svc/webhook/github"
-	"github.com/vastness-io/vcs-webhook/pkg/route"
-	"github.com/vastness-io/vcs-webhook/pkg/service"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	"github.com/vastness-io/queues/pkg/queue"
+	"github.com/vastness-io/vcs-webhook-svc/webhook/bitbucketserver"
+	"github.com/vastness-io/vcs-webhook-svc/webhook/github"
+	"github.com/vastness-io/vcs-webhook/pkg/route"
+	"github.com/vastness-io/vcs-webhook/pkg/service"
 )
 
 func TestGithubOnPushRoute(t *testing.T) {

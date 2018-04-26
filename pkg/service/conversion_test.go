@@ -2,11 +2,12 @@ package service
 
 import (
 	"encoding/json"
+	"reflect"
+	"testing"
+
 	"github.com/vastness-io/vcs-webhook-svc/webhook"
 	"github.com/vastness-io/vcs-webhook-svc/webhook/bitbucketserver"
 	"github.com/vastness-io/vcs-webhook-svc/webhook/github"
-	"reflect"
-	"testing"
 )
 
 type convertTestHelper = struct {

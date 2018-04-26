@@ -3,13 +3,15 @@ package route
 import (
 	"context"
 	"encoding/json"
+	"io/ioutil"
+	"net/http"
+
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/negroni"
+
 	toolkit_http "github.com/vastness-io/toolkit/pkg/http"
 	"github.com/vastness-io/vcs-webhook-svc/webhook/github"
 	"github.com/vastness-io/vcs-webhook/pkg/service"
-	"io/ioutil"
-	"net/http"
 )
 
 // NewGithubOnPushRouteHandler creates a "Route" handler, providing encoding/decoding, error and service level handling and wrapping in route specific middleware.

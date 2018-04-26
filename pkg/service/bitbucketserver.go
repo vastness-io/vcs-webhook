@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/afex/hystrix-go/hystrix"
+
 	"github.com/vastness-io/queues/pkg/core"
 	"github.com/vastness-io/vcs-webhook-svc/webhook"
 	"github.com/vastness-io/vcs-webhook-svc/webhook/bitbucketserver"

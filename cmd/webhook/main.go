@@ -3,16 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/opentracing/opentracing-go"
-	"github.com/sirupsen/logrus"
-	"github.com/urfave/cli"
-	"github.com/vastness-io/queues/pkg/queue"
-	toolkit "github.com/vastness-io/toolkit/pkg/grpc"
-	"github.com/vastness-io/vcs-webhook-svc/webhook"
-	"github.com/vastness-io/vcs-webhook/pkg/route"
-	"github.com/vastness-io/vcs-webhook/pkg/service"
-	"github.com/vastness-io/vcs-webhook/pkg/transport"
-	"google.golang.org/grpc"
 	"net"
 	"net/http"
 	"os"
@@ -20,6 +10,18 @@ import (
 	"strconv"
 	"syscall"
 	"time"
+
+	"github.com/opentracing/opentracing-go"
+	"github.com/sirupsen/logrus"
+	"github.com/urfave/cli"
+	"github.com/vastness-io/queues/pkg/queue"
+	"google.golang.org/grpc"
+
+	toolkit "github.com/vastness-io/toolkit/pkg/grpc"
+	"github.com/vastness-io/vcs-webhook-svc/webhook"
+	"github.com/vastness-io/vcs-webhook/pkg/route"
+	"github.com/vastness-io/vcs-webhook/pkg/service"
+	"github.com/vastness-io/vcs-webhook/pkg/transport"
 )
 
 const (
