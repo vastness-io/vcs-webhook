@@ -1,26 +1,25 @@
 package: github.com/vastness-io/vcs-webhook
 import:
 - package: github.com/gorilla/mux
-  version: ^1.6.1
+  version: "1.6.1"
 - package: github.com/vastness-io/vcs-webhook-svc
 - package: google.golang.org/grpc
-  version: ^1.9.2
+  version: "1.9.2"
 - package: github.com/sirupsen/logrus
-  version: ^1.0.4
+  version: "1.0.4"
 - package: github.com/afex/hystrix-go
-  subpackages:
-  - hystrix
+  version: "f86abeeb9f72803eb19b0d7a25159e55b80e7254"
 - package: github.com/vastness-io/queues
-  version: ^0.1.0
+  version: "0.1.0"
 - package: github.com/urfave/cli
-  version: ^1.20.0
+  version: "1.20.0"
 - package: github.com/golang/mock
-  version: ^1.0.0
+  version: "1.0.0"
 - package: github.com/urfave/negroni
-  version: ^0.3.0
+  version: "0.3.0"
 - package: github.com/vastness-io/toolkit
-  version: ^0.1.0
+  version: "0.1.0"
 - package: github.com/opentracing/opentracing-go
-  version: ^1.0.2
+  version: "1.0.2"
 - package: github.com/vastness-io/coordinator-svc
-  version: ^0.1.0
+  version: "0.1.0"
