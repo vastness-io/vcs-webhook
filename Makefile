@@ -14,3 +14,6 @@ build:
 
 verify:
 	./hack/verify-version.sh
+
+container: build
+	docker build -t vastness.io/vcs-webhook:${VERSION} .
