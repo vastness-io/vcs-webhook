@@ -3,6 +3,6 @@ syntax = "proto3";
 package project;
 
 message Language {
-   string name = 1;
-   double percentage = 2;
+    string name = 1;
+    double percentage = 2;
 }

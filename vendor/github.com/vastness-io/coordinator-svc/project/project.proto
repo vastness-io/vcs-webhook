@@ -7,8 +7,8 @@ import "repository.proto";
 package project;
 
 service Projects {
-    rpc GetProjects(google.protobuf.Empty) returns (GetProjectsResponse);
-    rpc GetProject(GetProjectMessage) returns (Project);
+    rpc GetProjects (google.protobuf.Empty) returns (GetProjectsResponse);
+    rpc GetProject (GetProjectMessage) returns (Project);
 }
 
 message GetProjectMessage {
@@ -19,7 +19,7 @@ message GetProjectMessage {
 message Project {
     string name = 1;
     string type = 2;
-	repeated Repository repositories = 3;
+    repeated Repository repositories = 3;
 }
 
 message GetProjectsResponse {

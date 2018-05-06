@@ -5,7 +5,8 @@ import "branch.proto";
 package project;
 
 message Repository {
-    int64 id = 1;
-    string name = 2;
-	repeated Branch branches = 3;
+    string name = 1;
+    string owner = 2;
+    string type = 3;
+    repeated Branch branches = 4;
 }

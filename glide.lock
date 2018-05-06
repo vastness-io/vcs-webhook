@@ -1,5 +1,5 @@
-hash: 26d5f618185e64760d7b5e0bf864d8c993162ac6a43019d3495378529592f967
-updated: 2018-04-27T10:10:11.753638+02:00
+hash: fdb01bfb9aa8d5591a75a0a326ea040b1275697b865ac725385515d5670c7069
+updated: 2018-05-06T20:20:22.773114+02:00
 imports:
 - name: github.com/afex/hystrix-go
   version: f86abeeb9f72803eb19b0d7a25159e55b80e7254
@@ -16,7 +16,7 @@ imports:
   subpackages:
   - gomock
 - name: github.com/golang/protobuf
-  version: e09c5db296004fbe3f74490e84dcd62c3c5ddb1b
+  version: b4deda0973fb4c70b50d226b1af49f3da59f5265
   subpackages:
   - jsonpb
   - proto
@@ -31,7 +31,7 @@ imports:
 - name: github.com/gorilla/mux
   version: 53c1911da2b537f792e7cafcb446b05ffe33b996
 - name: github.com/grpc-ecosystem/go-grpc-middleware
-  version: bc175326149c6c87ca6e2b9fe58cf6d2aa1036cd
+  version: c250d6563d4d4c20252cd865923440e829844f4e
   subpackages:
   - logging
   - logging/logrus
@@ -80,14 +80,14 @@ imports:
 - name: github.com/urfave/negroni
   version: 5dbbc83f748fc3ad38585842b0aedab546d0ea1e
 - name: github.com/vastness-io/coordinator-svc
-  version: 6672be77e84e3047c606115e9e5c399682fbefef
+  version: 9f8c39477c6990750ff77977b6cda974b3156279
 - name: github.com/vastness-io/queues
   version: 8642ab3e01eb49108b427e3d9e3a8b5ce2562cb5
   subpackages:
   - pkg/core
   - pkg/queue
 - name: github.com/vastness-io/toolkit
-  version: a25d6ce09da43b9852062215b7cabbfeb35169bb
+  version: ddfe7c027727cb412b3d4e7a1392bd820737bce5
   subpackages:
   - pkg/grpc
   - pkg/http
@@ -99,11 +99,11 @@ imports:
   - webhook/bitbucketserver
   - webhook/github
 - name: golang.org/x/crypto
-  version: b49d69b5da943f7ef3c9cf91c8777c1f78a0cc3c
+  version: 4ec37c66abab2c7e02ae775328b2ff001c3f025a
   subpackages:
   - ssh/terminal
 - name: golang.org/x/net
-  version: 5f9ae10d9af5b1c89ae6904293b14b064d4ada23
+  version: 640f4622ab692b87c2f3a94265e6f579fe38263d
   subpackages:
   - context
   - http/httpguts
@@ -114,7 +114,7 @@ imports:
   - lex/httplex
   - trace
 - name: golang.org/x/sys
-  version: bb9c189858d91f42db229b04d45a4c3d23a7662a
+  version: 6f686a352de66814cdd080d970febae7767857a3
   subpackages:
   - unix
   - windows
@@ -126,7 +126,7 @@ imports:
   - unicode/bidi
   - unicode/norm
 - name: google.golang.org/genproto
-  version: 7fd901a49ba6a7f87732eb344f6e3c5b19d1b200
+  version: 86e600f69ee4704c6efbf6a2a40a5c10700e76c2
   subpackages:
   - googleapis/rpc/status
 - name: google.golang.org/grpc
