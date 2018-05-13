@@ -16,11 +16,11 @@ verify:
 	./hack/verify-version.sh
 
 container: build
-	docker build -t quay.io/vastness.io/vcs-webhook:${COMMIT} .
+	docker build -t quay.io/vastness/vcs-webhook:${COMMIT} .
 
 push: container
-	docker push quay.io/vastness.io/vcs-webhook:${COMMIT}
-	docker tag quay.io/vastness.io/vcs-webhook:${COMMIT} quay.io/vastness.io/vcs-webhook:${VERSION}
-	docker push quay.io/vastness.io/vcs-webhook:${VERSION}
-	docker tag quay.io/vastness.io/vcs-webhook:${COMMIT} quay.io/vastness.io/vcs-webhook:latest
-	docker push quay.io/vastness.io/vcs-webhook:latest
+	docker push quay.io/vastness/vcs-webhook:${COMMIT}
+	docker tag quay.io/vastness/vcs-webhook:${COMMIT} quay.io/vastness/vcs-webhook:${VERSION}
+	docker push quay.io/vastness/vcs-webhook:${VERSION}
+	docker tag quay.io/vastness/vcs-webhook:${COMMIT} quay.io/vastness/vcs-webhook:latest
+	docker push quay.io/vastness/vcs-webhook:latest
