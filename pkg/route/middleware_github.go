@@ -43,16 +43,24 @@ func ValidGithubWebhookRequestSecure(secret string) func(http.ResponseWriter, *h
 		// Setting the body reader to the copied one, which hasn't been read from.
 		r.Body = copyToPass
 
-		if !ValidateHeaders(r.Header, GitHubEventHeader, GithubDeliveryHeader, GithubHubSignatureHeader) {
+		if !ValidateHeaders(r.Header, GitHubEventHeader, GithubDeliveryHeader) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 
-		if secret != "" && !eventSignatureHashEquals(secret, r.Header.Get(GithubHubSignatureHeader), bc) {
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
+		signature := r.Header.Get(GithubHubSignatureHeader)
 
+		if signature == "" {
+			if secret != "" {
+				w.WriteHeader(http.StatusBadRequest)
+				return
+			}
+		} else {
+			if !eventSignatureHashEquals(secret, r.Header.Get(GithubHubSignatureHeader), bc) {
+				w.WriteHeader(http.StatusBadRequest)
+				return
+			}
+		}
 		next(w, r)
 	}
 }

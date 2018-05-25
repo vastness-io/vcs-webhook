@@ -42,14 +42,23 @@ func ValidBitbucketServerWebhookRequestSecure(secret string) func(http.ResponseW
 		// Setting the body reader to the copied one, which hasn't been read from.
 		r.Body = copyToPass
 
-		if !ValidateHeaders(r.Header, BitbucketServerEventHeader, BitbucketServerHookRequestID, BitbucketServerHubSignatureHeader) {
+		if !ValidateHeaders(r.Header, BitbucketServerEventHeader, BitbucketServerHookRequestID) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 
-		if secret != "" && !eventSignatureHashEquals(secret, r.Header.Get(BitbucketServerHubSignatureHeader), bc) {
-			w.WriteHeader(http.StatusBadRequest)
-			return
+		signature := r.Header.Get(BitbucketServerHubSignatureHeader)
+
+		if signature == "" {
+			if secret != "" {
+				w.WriteHeader(http.StatusBadRequest)
+				return
+			}
+		} else {
+			if !eventSignatureHashEquals(secret, r.Header.Get(BitbucketServerHubSignatureHeader), bc) {
+				w.WriteHeader(http.StatusBadRequest)
+				return
+			}
 		}
 
 		next(w, r)
